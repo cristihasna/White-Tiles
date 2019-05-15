@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">White Tiles</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="fa_pause">&#xf04c;</string>
+    <string name="fa_play">&#xf04b;</string>
 </resources>

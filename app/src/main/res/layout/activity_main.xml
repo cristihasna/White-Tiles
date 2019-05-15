@@ -2,17 +2,90 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity" >
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="monospace"
+        android:shadowColor="@color/colorPrimary"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/purple"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <Button
+            android:id="@+id/separatorTop"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/darkPurple" />
+
+        <Button
+            android:id="@+id/playButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="onPlay"
+            android:padding="15dp"
+            android:text="PLAY"
+            android:textColor="@color/darkPurple"
+            android:textColorHighlight="@color/purple"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/highScoresButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="onHighScores"
+            android:padding="15dp"
+            android:text="HIGH SCORES"
+            android:textColor="@color/darkPurple"
+            android:textColorHighlight="@color/purple"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/quitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="onQuit"
+            android:padding="15dp"
+            android:text="QUIT"
+            android:textColor="@color/darkPurple"
+            android:textColorHighlight="@color/purple"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/separatorBottom"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/darkPurple" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
