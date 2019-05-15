@@ -38,8 +38,7 @@
             android:paddingStart="32dp"
             android:text="Score: 0"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:lineHeight="64dp" />
+            android:textSize="24sp" />
 
     </LinearLayout>
 

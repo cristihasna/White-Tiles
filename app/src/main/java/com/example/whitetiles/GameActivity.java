@@ -16,10 +16,6 @@ public class GameActivity extends Activity {
     private View popupMenu;
     private GameView game;
 
-    public interface RectClickListener {
-        void click();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

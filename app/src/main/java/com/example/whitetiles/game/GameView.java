@@ -1,8 +1,8 @@
 package com.example.whitetiles.game;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -23,12 +23,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int rectX;
     private int rectY;
 
-    private int speed = 5;
+    private int speed = 25;
 
     private void init(){
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
-        setFocusable(true);
         running = true;
         width = getWidth();
         Log.d("Game", "width: " + width);
@@ -56,13 +55,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        setWillNotDraw(false);
         thread.setRunning(true);
         thread.start();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -87,19 +88,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (!running) return;
         Log.d("GameUpdate", "Updating");
         rectY += speed;
+        if (rectY >= height) speed *= -1;
+        if (rectY < 0) speed *= -1;
+        postInvalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         Log.d("Game", "drawing at " + rectX + " | " + rectY);
-
+        canvas.drawColor(Color.WHITE);
         canvas.drawRect(rectX, rectY, rectX + 100, rectY + 100, tileBackground);
-        invalidate();
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d("Game", "Measured: " + widthMeasureSpec + " " + heightMeasureSpec);
     }
 }

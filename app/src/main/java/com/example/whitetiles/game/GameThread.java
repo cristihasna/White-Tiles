@@ -6,7 +6,7 @@ import android.view.SurfaceHolder;
 
 
 public class GameThread extends Thread {
-    private int FPS = 2;
+    private int FPS = 30;
     private double avgFPS;
     private SurfaceHolder holder;
     private GameView game;
@@ -34,9 +34,11 @@ public class GameThread extends Thread {
 
             try {
                 canvas = this.holder.lockCanvas();
-                synchronized (canvas) {
-                    game.update();
-                    game.draw(canvas);
+                synchronized (this.holder) {
+                    if (canvas != null){
+                        game.draw(canvas);
+                        game.update();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
