@@ -6,7 +6,8 @@ import android.view.SurfaceHolder;
 
 
 public class GameThread extends Thread {
-    private int FPS = 30;
+    private static final String TAG = "GameThread";
+    private static final int FPS = 30;
     private double avgFPS;
     private SurfaceHolder holder;
     private GameView game;
@@ -36,8 +37,8 @@ public class GameThread extends Thread {
                 canvas = this.holder.lockCanvas();
                 synchronized (this.holder) {
                     if (canvas != null){
-                        game.draw(canvas);
                         game.update();
+                        game.draw(canvas);
                     }
                 }
             } catch (Exception e) {
@@ -64,7 +65,8 @@ public class GameThread extends Thread {
             frameCount++;
             if (frameCount == FPS) {
                 avgFPS = 1000 / ((totalTime / frameCount) / 1_000_000);
-                Log.d("Game", "FPS: " + avgFPS);
+
+                Log.d(TAG, "FPS: " + avgFPS);
                 frameCount = 0;
                 totalTime = 0;
             }

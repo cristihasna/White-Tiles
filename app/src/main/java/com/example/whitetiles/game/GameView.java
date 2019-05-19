@@ -1,69 +1,69 @@
 package com.example.whitetiles.game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import com.example.whitetiles.R;
+import com.example.whitetiles.helper.Tile;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    private static final String TAG = "GameView";
+    
     private GameThread thread;
+    private GameStats gameStats;
     private boolean running;
     private Paint tileBackground;
+    private Context context;
 
-    private int width;
-    private int height;
+    private long gameTime = 0;
 
-    private int rectX;
-    private int rectY;
-
-    private int speed = 25;
-
-    private void init(){
-        getHolder().addCallback(this);
-        thread = new GameThread(getHolder(), this);
-        running = true;
-        width = getWidth();
-        Log.d("Game", "width: " + width);
-        height = getHeight();
-        rectX = width / 2;
-        rectY = 0;
-        tileBackground = new Paint();
-        tileBackground.setColor(getResources().getColor(R.color.purple));
-    }
 
     public GameView(Context context){
         super(context);
-        init();
+        init(context);
     }
 
     public GameView(Context context, AttributeSet attributes){
         super(context, attributes);
-        init();
+        init(context);
     }
 
     public GameView(Context context, AttributeSet attributes, int defStyle){
         super(context, attributes, defStyle);
-        init();
+        init(context);
+    }
+
+    private void init(Context context){
+        getHolder().addCallback(this);
+        running = true;
+        tileBackground = new Paint();
+        tileBackground.setColor(getResources().getColor(R.color.purple));
+        this.context = context;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         setWillNotDraw(false);
+        Log.d(TAG, "surface created");
+        thread = new GameThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        this.width = width;
-        this.height = height;
+        if (gameStats == null) {
+            gameStats = new GameStats(width, height);
+            gameTime = System.nanoTime();
+        }
+        Log.d(TAG, "surfaceChanged: " + width + " | " + height);
     }
 
     @Override
@@ -85,18 +85,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
-        if (!running) return;
-        Log.d("GameUpdate", "Updating");
-        rectY += speed;
-        if (rectY >= height) speed *= -1;
-        if (rectY < 0) speed *= -1;
-        postInvalidate();
+        if (!running || gameStats == null) return;
+
+        long newTime = System.nanoTime();
+        if (newTime - gameTime > gameStats.getDelay()){
+            int availableCol = gameStats.getRandomAvailableCol();
+            if (availableCol != -1){
+                gameStats.addTile(availableCol);
+                gameTime = newTime;
+            }
+        }
+        gameStats.update();
+        ((Activity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        });
     }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.d("Game", "drawing at " + rectX + " | " + rectY);
         canvas.drawColor(Color.WHITE);
-        canvas.drawRect(rectX, rectY, rectX + 100, rectY + 100, tileBackground);
+        if (gameStats != null){
+            for (Tile tile: gameStats.getTiles()){
+                canvas.drawRect(tile.getGraphicRect(), tileBackground);
+            }
+        }
     }
 }
