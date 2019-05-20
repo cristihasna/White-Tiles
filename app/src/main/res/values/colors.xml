@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="purple">#40407A</color>
     <color name="darkPurple">#22223F</color>
-
+    <color name="lightPurple">#B7B7D8</color>
+    <color name="lightGrey">#e3e3e3</color>
+    <color name="red">#dd4b39</color>
     <color name="black_overlay">#66000000</color>
 </resources>
