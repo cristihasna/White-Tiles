@@ -2,7 +2,9 @@ package com.example.whitetiles;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
 
@@ -12,6 +14,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        View view = findViewById(R.id.container);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.main_background, null);
+        view.setBackground(drawable);
     }
 
     public void onPlay(View view){
