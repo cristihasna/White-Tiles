@@ -32,9 +32,8 @@ public class MainActivity extends Activity {
 
     public void onHighScores(View view){
         Log.d("Game", "High Scores");
+        Intent intent = new Intent(MainActivity.this, HSActivity.class);
+        startActivity(intent);
     }
 
-    public void onSettings(View view){
-        Log.d("Game", "Settings");
-    }
 }
